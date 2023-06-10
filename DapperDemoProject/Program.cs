@@ -1,5 +1,6 @@
 using DapperDemoProject.Data;
 using DapperDemoProject.Interfaces;
+using DapperDemoProject.Repositories.Dapper;
 using DapperDemoProject.Repositories.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddScoped<ICompanyRepository, EfCompanyRepository>();
+//builder.Services.AddScoped<ICompanyRepository, EfCompanyRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 builder.Services.AddControllersWithViews();
 

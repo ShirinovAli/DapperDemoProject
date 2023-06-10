@@ -17,7 +17,11 @@ namespace DapperDemoProject.Repositories.Dapper
 
         public Company Add(Company company)
         {
-            throw new NotImplementedException();
+            var query = "INSERT INTO Companies (Name, Address, City, State, PostalCode) VALUES(@Name, @Address, @City, @State, @PostalCode);"
+                + "SELECT CAST(SCOPE_IDENTITY() as int);";
+            var id = _db.Query<int>(query, company).Single();
+            company.Id = id;
+            return company;
         }
 
         public Company Find(int id)
@@ -34,12 +38,16 @@ namespace DapperDemoProject.Repositories.Dapper
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            var query = "DELETE FROM Companies WHERE Id = @Id";
+            _db.Execute(query, new { id });
         }
 
         public Company Update(Company company)
         {
-            throw new NotImplementedException();
+            var query = "UPDATE Companies SET Name = @Name, Address = @Address, City = @City, " +
+                "State = @State, PostalCode = @PostalCode WHERE Id = @Id";
+            _db.Execute(query, company);
+            return company;
         }
     }
 }
